@@ -7,6 +7,7 @@
   <link id="ModelViewerOverride" rel="stylesheet" href="{{ 'component-model-viewer-ui.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
 
+
 <section class=" section-{{ section.id }} {{section.settings.sect_class}}"> 
   <div class="container">
     <div class="row product">
@@ -337,42 +338,48 @@
                     {% form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
                       <input type="hidden" name="id" id="curentvariant" value="{{ product.selected_or_first_available_variant.id }}">
 
- <div class="row no-gutters p26">
-  <div class="col-auto">
-    <div class="product_card_quantity"> 
-      <span onclick="product_card_quantity({{product.id}},'minus')">
-          <i class="fal fa-minus"></i>
-      </span>
+                      <div class="row no-gutters p26">
+                        <div class="col-auto">
+                          <div class="product_card_quantity"> 
+                            <span onclick="product_card_quantity({{product.id}},'minus')">
+                                <i class="fal fa-minus"></i>
+                            </span>
 
-      <input type="number"
-      name="quantity" id="product_quantity_{{product.id}}"  pattern="[0-9]*" value="1">
+                            <input type="number"
+                            name="quantity" id="product_quantity_{{product.id}}"  pattern="[0-9]*" value="1">
 
-      {%- assign quantity_plus_one = line_item.quantity | plus: 1 -%}
+                            {%- assign quantity_plus_one = line_item.quantity | plus: 1 -%}
 
-      <span onclick="product_card_quantity({{product.id}},'plus')">
-          <i class="fal fa-plus"></i>
-      </span>
-    </div>
-  </div>
-  <div class="col">
-    <button
-    id="AddToCart"
-    type="submit"
-    name="add" id="add-to-cart-button"
-data-uw-rm-kbnav="click"
-onclick="add_to_cart_product({{product.selected_or_first_available_variant.id}});"
-    class="add-to-cart-button btn js-go-cart-add-to-cart product-form__submit add_one_product"
-  {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
-
-        {%- if product.selected_or_first_available_variant.available -%}
-          {{ 'products.product.add_to_cart' | t }}
-        {%- else -%}
-          {{ 'products.product.sold_out' | t }}
-        {%- endif -%}  
-
-  </button>
-  </div>
- </div> 
+                            <span onclick="product_card_quantity({{product.id}},'plus')">
+                                <i class="fal fa-plus"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div x-data="{ buttonText: '', preorderDate: false }" x-init="
+                            if ({{ product.available }}) {
+                              if ({{ product.variants.first.inventory_quantity }} <= 0) {
+                                buttonText = '{{block.settings.low_stock_button_text}}';
+                                preorderDate = true;
+                              } else {
+                                buttonText = 'Add to Cart';
+                              }
+                            } else {
+                              buttonText = 'Sold Out';
+                             
+                            }" class="col">
+                          <button
+                          x-text="buttonText" 
+                          id="AddToCart"
+                          type="submit"
+                          name="add" id="add-to-cart-button"
+                          data-uw-rm-kbnav="click"
+                          onclick="add_to_cart_product({{product.selected_or_first_available_variant.id}});"
+                          class="add-to-cart-button btn js-go-cart-add-to-cart product-form__submit add_one_product"
+                        {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
+                        </button>
+                        <p x-show="preorderDate">{{ block.settings.low_stock_message_text }}</p>
+                        </div>
+                      </div> 
                           {% if product.metafields.custom.gift_code_text != blank %}
                        <div class="gift-code-text">
                        {{ product.metafields.custom.gift_code_text }}
@@ -622,6 +629,18 @@ var _learnq = _learnq || [];
           "default": true,
           "label": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.label",
           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.info"
+        },
+        {
+          "type": "text",
+          "id": "low_stock_button_text",
+          "default": "Preorder",
+          "label": "Low Stock Button Text"
+        },
+        {
+          "type": "text",
+          "id": "low_stock_message_text",
+          "default": "Available August 10, 2023",
+          "label": "Low Stock Message Text"
         }
       ]
     },

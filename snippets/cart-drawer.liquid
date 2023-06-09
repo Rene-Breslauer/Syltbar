@@ -87,6 +87,7 @@
           </div>
            {% endunless %}
         {% endif %}
+        {% if settings.agegate_switch %}
         <p class="AgeGate__Subtext">I am 21+</p>
         <div class="AgeGate__Switcher">
                   <input type="checkbox" name="age-gate" id="age-gate-input" class="AgeGate__Input" aria-required="true" data-checked="true">
@@ -94,6 +95,7 @@
                     <label for="age-gate-input" class="Body1 AgeGate__InputLabel">An adult signature (21+) is required for delivery.</label>
                   
                 </div>
+        {% endif %}
               <div class="mini-cart__footer_ins">
             <div class="row align-items-center mini-cart-subtotal pb16">
       <div class="col "><span class="h5 m0">Subtotal: {{ cart.item_count }} {{ text }}</span></div>
