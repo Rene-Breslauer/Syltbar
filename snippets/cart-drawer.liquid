@@ -102,7 +102,7 @@
       <div class="col-auto mini-cart-subtotal-price"><span class="h5 m0">{{ cart.total_price | money_without_trailing_zeros }}</span></div>
     </div> 
                 
-        <button type="submit" class="mini-cart__checkout gold_button"  disabled="disabled">
+      <button type="submit" class="mini-cart__checkout gold_button"  {% if settings.agegate_switch %} disabled="disabled" {% else %}{% endif %}>
           Checkout
         </button>    </div>
     </div>
