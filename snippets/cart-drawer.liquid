@@ -85,6 +85,8 @@
             <div class="cart_qualifies_free_shipping_html hidden">Your order qualifies for <strong>Free Shipping!</strong></div>
             <div class="cart_no_qualifies_free_shipping_html hidden">Add <span class="cart_free_shipping fw_600"></span> more bottles to get <strong>Free Shipping!</strong></div>
           </div>
+          {% else %}
+           <div class="">Your order qualifies for <strong>Free Shipping!</strong></div>
            {% endunless %}
         {% endif %}
         {% if settings.agegate_switch %}
