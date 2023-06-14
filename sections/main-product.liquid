@@ -355,17 +355,17 @@
                             </span>
                           </div>
                         </div>
+                        {% if product.metafields.product.preorder_product %}
                         <div x-data="{ buttonText: '', preorderDate: false }" x-init="
-                            if ({{ product.available }}) {
-                              if ({{ product.variants.first.inventory_quantity }} <= 0) {
-                                buttonText = '{{block.settings.low_stock_button_text}}';
-                                preorderDate = true;
-                              } else {
-                                buttonText = 'Add to Cart';
-                              }
+                          if ({{ product.available }}) {
+                            if ({{ product.variants.first.inventory_quantity }} <= 0 ) {
+                              buttonText = '{{ block.settings.low_stock_button_text }}';
+                              preorderDate = true;
                             } else {
-                              buttonText = 'Sold Out';
-                             
+                              buttonText = 'Add to Cart';
+                            }
+                          } else {
+                            buttonText = 'Sold Out';
                             }" class="col">
                           <button
                           x-text="buttonText" 
@@ -379,6 +379,24 @@
                         </button>
                         <p x-show="preorderDate">{{ block.settings.low_stock_message_text }}</p>
                         </div>
+                        {% else %}
+                          <div class="col">
+                          <button
+                          id="AddToCart"
+                          type="submit"
+                          name="add" id="add-to-cart-button"
+                      data-uw-rm-kbnav="click"
+                      onclick="add_to_cart_product({{product.selected_or_first_available_variant.id}});"
+                          class="add-to-cart-button btn js-go-cart-add-to-cart product-form__submit add_one_product"
+                        {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
+                              {%- if product.selected_or_first_available_variant.available -%}
+                                {{ 'products.product.add_to_cart' | t }}
+                              {%- else -%}
+                                {{ 'products.product.sold_out' | t }}
+                              {%- endif -%}  
+                        </button>
+                        </div>
+                      {% endif %}
                       </div> 
                           {% if product.metafields.custom.gift_code_text != blank %}
                        <div class="gift-code-text">
