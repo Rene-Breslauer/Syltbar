@@ -110,11 +110,14 @@
 
       </div>
       <div class="col">
+        {% if card_product.metafields.product.preorder_product %}
+        <span class="add_one_product" onclick="add_to_cart_product({{card_product.selected_or_first_available_variant.id}});">Preorder</span>
+        {% else %}
         <span class="add_one_product" onclick="add_to_cart_product({{card_product.selected_or_first_available_variant.id}});">Add to bag</span>
+      {% endif %}
       </div>
+   
     </div>
-      
-           
     
     </div>  
    
