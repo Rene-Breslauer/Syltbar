@@ -13,7 +13,6 @@
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}{% endcomment %}
 
-
 {%- if card_product and card_product != empty -%}
   <div class="preview-card align-content-between" data-productid="{{card_product.selected_or_first_available_variant.id}}">
     <div class="preview-card-wrapper ">
@@ -110,9 +109,11 @@
 
       </div>
       <div class="col">
-      
+        {% if card_product.selected_or_first_available_variant.inventory_quantity < 1 and card_product.metafields.product.preorder_product %}
+        <span class="add_one_product" onclick="add_to_cart_product({{card_product.selected_or_first_available_variant.id}});">Preorder</span>
+        {% else %}
         <span class="add_one_product" onclick="add_to_cart_product({{card_product.selected_or_first_available_variant.id}});">Add to bag</span>
-
+      {% endif %}
       </div>
    
     </div>
