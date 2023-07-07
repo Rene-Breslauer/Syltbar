@@ -903,3 +903,7 @@ variant-selects .select__select {
   max-height: 400px;
 }
 }
+
+.pdp-date-text {
+  text-align: center;
+}
