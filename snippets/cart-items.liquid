@@ -81,11 +81,11 @@
       </div> 
       {{ item_actions }} 
 
-          {% if 'preorder' | split: ',' | map: 'strip' | map: 'downcase' | contains: item.variant.product.tags | join: ',' %}
-        <div class="cart-preorder-text">
+    {% if line_item.product.metafields.product.preorder_product and line_item.variant.inventory_quantity < 1 %}
+      <div class="cart-preorder-text">
           {{ line_item.product.metafields.product.preorder_text }}
         </div>   
-      {% endif %}
+    {% endif %}
  
         {% if for_drawer %} </div>{% endif %}
   {% if for_drawer %} </div>{% endif %}
@@ -103,6 +103,7 @@
     
        {% endif %}
        
+      
       
       </div>
     {%- if for_drawer -%}
