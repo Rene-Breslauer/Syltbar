@@ -12,7 +12,19 @@
 
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}{% endcomment %}
-
+<style>
+  .add_one_product.preorder {
+    line-height: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .preorder_date {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+</style>
 {%- if card_product and card_product != empty -%}
   <div class="preview-card align-content-between" data-productid="{{card_product.selected_or_first_available_variant.id}}">
     <div class="preview-card-wrapper ">
@@ -110,7 +122,10 @@
       </div>
       <div class="col">
         {% if card_product.selected_or_first_available_variant.inventory_quantity < 1 and card_product.metafields.product.preorder_product %}
-        <span class="add_one_product" onclick="add_to_cart_product({{card_product.selected_or_first_available_variant.id}});">Preorder</span>
+        <span class="add_one_product preorder" onclick="add_to_cart_product({{card_product.selected_or_first_available_variant.id}});">Preorder
+          <br>
+          <span class="preorder_date">{{ card_product.metafields.product.preorder_text }}</span>
+        </span>
         {% else %}
         <span class="add_one_product" onclick="add_to_cart_product({{card_product.selected_or_first_available_variant.id}});">Add to bag</span>
       {% endif %}

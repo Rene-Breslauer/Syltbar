@@ -377,7 +377,7 @@
                           class="add-to-cart-button btn js-go-cart-add-to-cart product-form__submit add_one_product"
                         {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
                         </button>
-                        <p x-show="preorderDate">{{ block.settings.low_stock_message_text }}</p>
+                        <p x-show="preorderDate">{{ product.metafields.product.preorder_text }}</p>
                         </div>
                         {% else %}
                           <div class="col">
