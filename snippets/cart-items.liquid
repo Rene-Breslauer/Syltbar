@@ -1,3 +1,9 @@
+<style>
+  .cart-preorder-text {
+  margin-top: 10px;
+}
+</style>
+
 {%- assign for_drawer = true -%}
 {% assign type_cart = 'drawer' %}
 {%- if template == 'cart' or template == 'cart.ajax' -%}
@@ -64,16 +70,22 @@
             <a href="#" class="CartItem__Remove"   onclick="delMiniCartVal('{{ line_item.key }}','{{ type_cart }}'); return false;">{% render 'icon-remove' %}</a>
           </div> 
           </div>
-         
+    
          
         
         {%- endcapture -%}  
         
-        
+      
         
         
       </div> 
       {{ item_actions }} 
+
+          {% if 'preorder' | split: ',' | map: 'strip' | map: 'downcase' | contains: item.variant.product.tags | join: ',' %}
+        <div class="cart-preorder-text">
+          {{ line_item.product.metafields.product.preorder_text }}
+        </div>   
+      {% endif %}
  
         {% if for_drawer %} </div>{% endif %}
   {% if for_drawer %} </div>{% endif %}
@@ -87,13 +99,15 @@
             <span class="CartItem__Price Price">{{ line_item.final_line_price | money_without_trailing_zeros }}</span>
           {%- endif -%}
       </div>
+
+    
        {% endif %}
        
       
       </div>
     {%- if for_drawer -%}
-      
-        
+
+
        </div>
     {%- endif -%}
   {%- endfor -%}

@@ -129,7 +129,10 @@
 </script>
 
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.1/dist/cdn.min.js"></script>
-
+  
+{% if product.metafields.global.preorder_product == true and product.variants.first.inventory_quantity < 1 %}
+  {% assign tags = product.tags | append: 'preorder' %}
+{% endif %}
   
   </head>
 
