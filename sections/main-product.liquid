@@ -355,10 +355,10 @@
                             </span>
                           </div>
                         </div>
-                        {% if product.metafields.product.preorder_product %}
+          
                         <div x-data="{ buttonText: '', preorderDate: false }" x-init="
                           if ({{ product.available }}) {
-                            if ({{ product.variants.first.inventory_quantity }} <= 0 ) {
+                            if ({{ product.metafields.product.preorder_product }}) {
                               buttonText = '{{ block.settings.low_stock_button_text }}';
                               preorderDate = true;
                             } else {
@@ -396,7 +396,7 @@
                               {%- endif -%}  
                         </button>
                         </div>
-                      {% endif %}
+                 
                       </div> 
                           {% if product.metafields.custom.gift_code_text != blank %}
                        <div class="gift-code-text">
