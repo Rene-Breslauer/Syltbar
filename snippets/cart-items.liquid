@@ -81,7 +81,7 @@
       </div> 
       {{ item_actions }} 
 
-    {% if line_item.product.metafields.product.preorder_product and line_item.variant.inventory_quantity < 1 %}
+    {% if line_item.product.metafields.product.preorder_product %}
       <div class="cart-preorder-text">
           {{ line_item.product.metafields.product.preorder_text }}
         </div>   
