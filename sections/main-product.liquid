@@ -356,30 +356,7 @@
                           </div>
                         </div>
           
-                        <div x-data="{ buttonText: '', preorderDate: false }" x-init="
-                          if ({{ product.available }}) {
-                            if ({{ product.metafields.product.preorder_product }}) {
-                              buttonText = '{{ block.settings.low_stock_button_text }}';
-                              preorderDate = true;
-                            } else {
-                              buttonText = 'Add to Cart';
-                            }
-                          } else {
-                            buttonText = 'Sold Out';
-                            }" class="col">
-                          <button
-                          x-text="buttonText" 
-                          id="AddToCart"
-                          type="submit"
-                          name="add" id="add-to-cart-button"
-                          data-uw-rm-kbnav="click"
-                          onclick="add_to_cart_product({{product.selected_or_first_available_variant.id}});"
-                          class="add-to-cart-button btn js-go-cart-add-to-cart product-form__submit add_one_product"
-                        {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
-                        </button>
-                        <p x-show="preorderDate" class="pdp-date-text">{{ product.metafields.product.preorder_text }}</p>
-                        </div>
-                        {% else %}
+                
                           <div class="col">
                           <button
                           id="AddToCart"
@@ -390,11 +367,18 @@
                           class="add-to-cart-button btn js-go-cart-add-to-cart product-form__submit add_one_product"
                         {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
                               {%- if product.selected_or_first_available_variant.available -%}
-                                {{ 'products.product.add_to_cart' | t }}
+                                {%- if product.metafields.product.preorder_product -%}
+                                  PREORDER
+                                {%- else -%}
+                                  {{ 'products.product.add_to_cart' | t }}
+                                {%- endif -%}
                               {%- else -%}
                                 {{ 'products.product.sold_out' | t }}
                               {%- endif -%}  
                         </button>
+                      {% if product.metafields.custom.preorder_confirmation %}
+                       <p class="pdp-date-text">{{ product.metafields.product.preorder_text }}</p>
+                      {% endif %}
                         </div>
                  
                       </div> 
